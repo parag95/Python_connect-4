@@ -25,9 +25,32 @@ def print_board(board):
     print(np.flip(board, 0))
 
 
-def winning_check():
-    pass
+def winning_check(board, piece):
+    # check rows
+    for c in range(COLUMN_COUNT - 3):
+        for r in range(ROW_COUNT):
+            if board[r][c] == piece and board[r][c+1] == piece and board[r][c+2] == piece and board[r][c+3] == piece:
+                return True
 
+    # check columns
+    for r in range(ROW_COUNT):
+        for c in range(COLUMN_COUNT - 3):
+            if board[r][c] == piece and board[r+1][c] == piece and board[r+2][c] == piece and board[r+3][c] == piece:
+                return True
+
+    # positive slope diagonal
+    for c in range(COLUMN_COUNT -3):
+        for r in range(ROW_COUNT -3):
+            if board[r][c] == piece and board[r+1][c+1] == piece and board[r+2][c+2] == piece and board[r+3][c+3] == piece:
+                return True
+
+    # negative slope diagonal
+    for c in range(COLUMN_COUNT -3):
+        for r in range(3, ROW_COUNT):
+            if board[r][c] == piece and board[r-1][c+1] == piece and board[r-2][c+2] == piece and board[r-3][c+3] == piece:
+                return True
+
+ 
 
 board = create_board()
 print_board(board)
@@ -42,6 +65,10 @@ while not game_over:
         if is_valid_location(board, col):
             row = get_next_open_row(board, col)
             drop_piece(board, row, col, 1)
+        if winning_check(board, 1):
+            print("Player 1 wins")
+            game_over = True
+
     # Player 2 
     else:
         col = int(input("player 2's turn: , choose column 0-6 "))
@@ -49,6 +76,10 @@ while not game_over:
         if is_valid_location(board, col):
             row = get_next_open_row(board, col)
             drop_piece(board, row, col, 2)
+
+        if winning_check(board, 2):
+            print("Player 2 wins")
+            game_over = True
 
     print_board(board)
     turn += 1
