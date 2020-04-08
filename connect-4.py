@@ -141,7 +141,7 @@ while not game_over:
                     drop_piece(board, row, col, 2)
 
                 if winning_check(board, 2):
-                    label = myfont.render("Player 1 wins!", 1, YELLOW) # 1 is the axis
+                    label = myfont.render("Player 2 wins!", 1, YELLOW) # 1 is the axis
                     screen.blit(label, (40, 10))
                     game_over = True
 
